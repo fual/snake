@@ -39,8 +39,8 @@ function Snake(row, col, course) {
 
     //Движение
     this.move = function () {
-        console.log(this.isCourseInverted);
-        console.log(this.body[0]);
+        //console.log(this.isCourseInverted);
+        //console.log(this.body[0]);
 
         if (this.isCourseInverted) {
             this.body.reverse();

@@ -4,7 +4,6 @@
 	<title>GAME</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-	<script language="javascript" src="js/native/jquery.typingFilter.js"></script>
 	<script language="javascript" src="js/native/matrix.js"></script>
     <script language="javascript" src="js/native/snake.js"></script>
     <script language="javascript" src="js/native/game.js"></script>
@@ -26,7 +25,7 @@
 
             // Когда человек отправляет свои данные
             $('.nameForm').on('click', '#submitName' , function(){
-                gamePlay.saveResults($('#playerName').val());
+                gamePlay.saveResults('123');
             });
 
 

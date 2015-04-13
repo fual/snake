@@ -76,25 +76,27 @@ function GamePlay(containerId) {
 
     //Функция сохранения Результатов
     this.saveResults = function (name) {
-        $.post("php/save.php", {
-            name: name || 'alex',
-            result: this.score
-        }, function (data) {
+        var body = 'name=' +  name + '&result=' + this.score;
+        //console.log(body);
+        this.postJSON('php/save.php', body).then(function(data) {
             if (data != false) {
-                document.getElementsByID('nameForm-notice').html(data);
+
+             // document.getElementByID('nameForm-notice').innerHTML = data;
                 _self.getResults(); //Обновляем таблицу результатов
                 _self.clear(); //Очищаем поле от старой игры
                 setTimeout(function () {
                     _self.showNameForm()
                 }, 2000)
             }
+        }, function(status) { //error detection....
+            alert('Something went wrong.');
         });
     };
 
     //Функция обновления Результатов
     this.getResults = function () {
 
-        getJSON('php/get.php').then(function(data) {
+        this.getJSON('php/get.php').then(function(data) {
             if (data != false) {
                 _self.setResults(data);
                 _self.makeResultsTable('results', data);
@@ -104,10 +106,33 @@ function GamePlay(containerId) {
         });
     };
 
+    this.postJSON = function(url, body) {
+        return new Promise(function(resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', url, true);
+            xhr.send(body);
+            xhr.onload = function() {
+                var status = xhr.status;
+                if (status == 200) {
+                    resolve(xhr.response);
+                } else {
+                    reject(status);
+                }
+            };
+        });
+    };
+
     // Очистка поля. Новая змейка.
     this.clear = function () {
         //console.log($('.cell').length);
-        document.getElementById('container').getElementsByTagName('span')[cellIndex].classList.remove('on flower');
+        var cells = document.getElementById(containerId).querySelectorAll('.on'),
+            cellsLength = cells.length;
+
+        [].forEach.call( cells , function(el) {
+            el.classList.remove('on');
+        });
+
+        console.log(cells);
         this.snake = new Snake(5, 15, 'dawn');
         document.getElementById('start').removeAttribute('disabled');
     };
@@ -126,16 +151,17 @@ function GamePlay(containerId) {
     //Функция увеличения счета.
     this.setScore = function () {
         this.score = this.score + (200 / this.speed);
-        document.getElementById('#score').html(this.score);
+        document.getElementById('score').innerHTML = this.score;
     };
 
     //
     this.makeResultsTable = function (id, data) {
-        var items = [];
-        data.map( function( key, val ) {
-            items.push( "<tr><td>" + (key + 1) + "</td><td>" + val[0] + "</td><td>" + val[1] + "</td></tr>" );
+        var items = "<table>";
+        data.map( function( val, index ) {
+            items += "<tr><td>" + (1 + index) + "</td><td>" + val[0] + "</td><td>" + val[1] + "</td></tr>" ;
         });
-        document.getElementById(id).innerHTML(items);
+
+        document.getElementById(id).innerHTML = items + '</table>';
     };
 
     //setResults

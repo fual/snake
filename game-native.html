@@ -24,7 +24,8 @@
 
             // Когда человек отправляет свои данные
             document.getElementById('submitName').onclick =  function(){
-                gamePlay.saveResults('123');
+                console.log(document.getElementById('playerName'));
+                gamePlay.saveResults(document.getElementById('playerName').value);
             };
         };
     </script>

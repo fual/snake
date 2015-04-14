@@ -109,8 +109,8 @@ function GamePlay(containerId) {
     this.postJSON = function(url, body) {
         return new Promise(function(resolve, reject) {
             var xhr = new XMLHttpRequest();
-            xhr.open('post', url, true);
-            xhr.send(body);
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
             xhr.onload = function() {
                 var status = xhr.status;
                 if (status == 200) {
@@ -119,6 +119,8 @@ function GamePlay(containerId) {
                     reject(status);
                 }
             };
+
+            xhr.send(body);
         });
     };
 

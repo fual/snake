@@ -1,36 +1,32 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html>
 <html>
 <head>
 	<title>GAME</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
-    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 	<script language="javascript" src="js/native/matrix.js"></script>
     <script language="javascript" src="js/native/snake.js"></script>
     <script language="javascript" src="js/native/game.js"></script>
 	<script>
-        $( document ).ready(function() {
+        window.onload = function() {
             var gamePlay = new GamePlay('matrix');
 
             // Начало игры
-            $('.start').on("click" , function(){
+            document.getElementById('start').onclick =  function() {
                 gamePlay.game();
-                $(this).attr('disabled','disabled');
-            });
+                this.setAttribute('disabled', 'disabled');
+            };
 
             // Когда человек меняет уровень/скорость
-            $('.selectSpeed').on("change" , function(){
-                gamePlay.setSpeed($(this).find('option:selected').val());
-            });
-
+            document.getElementById('selectSpeed').onchange =  function(){
+                var val = this.querySelectorAll('option:checked')[0].value;
+                gamePlay.setSpeed(val);
+            };
 
             // Когда человек отправляет свои данные
-            $('.nameForm').on('click', '#submitName' , function(){
+            document.getElementById('submitName').onclick =  function(){
                 gamePlay.saveResults('123');
-            });
-
-
-
-        });
+            };
+        };
     </script>
 </head>
 <body>
@@ -54,7 +50,7 @@
             <!-- Выбор Уровная сложности -->
             <div class="cp">
                 <h2>Snake</h2>
-                <select class="selectSpeed">
+                <select id="selectSpeed" class="selectSpeed">
                     <option value="1000">1 level</option>
                     <option value="500">2 level</option>
                     <option value="50">3 level</option>

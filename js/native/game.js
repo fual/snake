@@ -124,15 +124,14 @@ function GamePlay(containerId) {
 
     // Очистка поля. Новая змейка.
     this.clear = function () {
-        //console.log($('.cell').length);
-        var cells = document.getElementById(containerId).querySelectorAll('.on'),
+        var cells = document.getElementById(containerId).querySelectorAll('.on, .flower'),
             cellsLength = cells.length;
 
-        [].forEach.call( cells , function(el) {
-            el.classList.remove('on');
-        });
+        for (var i = 0; i < cellsLength; i++){
+            cells[i].classList.remove('on');
+            cells[i].classList.remove('flower');
+        }
 
-        console.log(cells);
         this.snake = new Snake(5, 15, 'dawn');
         document.getElementById('start').removeAttribute('disabled');
     };
